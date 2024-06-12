@@ -31,11 +31,14 @@ jobs:
         dotnet-version: 8.0.x
     - name: Build release
       run: dotnet publish -o release
-    - name: Artifact
-      uses: actions/upload-artifact@v4.3.3
+    - name: Zip release files
+      uses: montudor/action-zip@v1
       with:
-        path: release/
-        name: ReleaseBuild
+        args: zip -qq -r Devops.zip release
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: Devops.zip
   docker:
     runs-on: ubuntu-latest
     steps:
