@@ -38,6 +38,7 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v2
       with:
+        tag_name: v1.0.0
         files: Devops.zip
   docker:
     runs-on: ubuntu-latest
@@ -63,4 +64,4 @@ jobs:
           platforms: linux/amd64
           push: true
           target: final
-          tags: ${{ secrets.DOCKER_USERNAME }}/raduga:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/devops:latest
