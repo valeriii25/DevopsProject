@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IMiniCalculator, MiniCalculator>();
 
 var app = builder.Build();
 
@@ -36,9 +37,23 @@ app.MapGet("/weatherforecast", () =>
     .WithName("GetWeatherForecast")
     .WithOpenApi();
 
+app.MapPost("/add", (IMiniCalculator calc, int a, int b) => calc.Summarize(a, b))
+    .WithName("GetSum")
+    .WithOpenApi();
+
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+}
+
+interface IMiniCalculator
+{
+    int Summarize(int a, int b);
+}
+
+class MiniCalculator : IMiniCalculator
+{
+    public int Summarize(int a, int b) => a + b;
 }
