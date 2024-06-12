@@ -48,12 +48,12 @@ record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
 
-interface IMiniCalculator
+public interface IMiniCalculator
 {
     int Summarize(int a, int b);
 }
 
-class MiniCalculator : IMiniCalculator
+public class MiniCalculator : IMiniCalculator
 {
     public int Summarize(int a, int b) => a + b;
 }
