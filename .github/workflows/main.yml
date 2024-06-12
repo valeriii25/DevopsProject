@@ -1,0 +1,38 @@
+name: .NET Test
+
+on:
+  push:
+    branches:
+      - master
+      - 'feature/**'
+
+jobs:
+  test:
+    name: Test 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Build
+      run: dotnet build -c Release
+    - name: Test
+      run: dotnet test -c Release --no-build
+  release:
+    name: Release 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Build release
+      run: dotnet publish -o release WebUI/WebUI.csproj
+    - name: Artifact
+      uses: actions/upload-artifact@v4.3.3
+      with:
+        path: release/
+        name: ReleaseBuild
